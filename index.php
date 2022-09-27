@@ -46,18 +46,93 @@ function generateRandomUserName(){
     return $username;
 }
 
-$users = [
-    [
-        "username" => "Hla Hla",
-        "email" => "hlahla@gmail.com",
-        "password" => "123456",
-        "status" => true    
-    ]
-];
+function generateRandomUserList($size){
 
-for($x = 0; $x < 10 ; $x ++){
-    array_push($users, generateRandomUser());
+    $users = array();
+
+    for($x = 0; $x < $size ; $x ++){
+        array_push($users, generateRandomUser());
+    }
+    return $users;
 }
+
+//Add User Function
+function addUser($users, $newUser){
+    if(!isset($newUser['username'])){
+        return "Username is required";
+
+    }else if(!isset($newUser['password'])){
+        return "Password is required";
+
+    }else if(isset($newUser['password']) && strlen($newUser['password']) < 6){
+        return "Password must be 6 digits";
+
+    }else{
+        array_push($users,$newUser);
+        return $users;
+    }
+
+}
+
+//Update User Function
+function updateUser($users, $updateUser, $username){
+
+    for($i = 0; $i< count($users); $i++){
+        if(isset($username) && $users[$i]['username'] === $username){
+            $users[$i] = $updateUser;
+        }
+    }
+    return $users;
+
+}
+
+
+//Delete User Function
+function deleteUser($users, $username){
+
+    $newArray = array();
+
+    foreach($users as $user){
+        if(isset($username) && $user['username'] !== $username){
+            array_push($newArray,$user);
+        }
+    }
+    return $newArray;
+}
+
+//User List 
+$userList = generateRandomUserList(10);
+
+//Add New User 'Aung Aung'
+$newUser = [
+    "username" => "Aung Aung",
+    "email" => "aung@gmail.com",
+    "password" => "aungaung",
+    "status" => true
+];
+$userList = addUser($userList,$newUser );
+
+//Update user with username 'Aung Aung'
+$updateUser = [
+    "username" => "Mg Mg",
+    "email" => "mg@gmail.com",
+    "password" => "mgmg1234",
+    "status" => true  
+];
+$userList = updateUser($userList,$updateUser,'Aung Aung');
+
+//Add New User 'Aung Aung' again
+$newUser = [
+    "username" => "Aung Aung",
+    "email" => "aung@gmail.com",
+    "password" => "aungaung",
+    "status" => true
+];
+$userList = addUser($userList,$newUser );
+
+//Delete User with username 'Aung Aung'
+$userList = deleteUser($userList,'Aung Aung');
+
 
 ?>
 
@@ -68,9 +143,9 @@ for($x = 0; $x < 10 ; $x ++){
     <body>
         <ul>
             <h3>Users List</h3>
-            <?php foreach($users as $key => $user) { ?>
+            <?php foreach($userList as $key => $user) { ?>
                <?php if($user['status'] === true) { ?>
-                    <li>Array Index : <?php echo $key ?> </li>
+                    <li>Array Index : <?php echo ($key + 1) ?> </li>
                     <li>Username : <?php echo $user['username'] ?> </li>
                     <li>Email : <?php echo $user['email'] ?> </li>
                     <li>Password : <?php echo $user['password'] ?> </li>
