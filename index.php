@@ -76,13 +76,24 @@ function addUser($users, $newUser){
 
 //Update User Function
 function updateUser($users, $updateUser, $username){
+    if(!isset($updateUser['username'])){
+        return "Username is required";
 
-    for($i = 0; $i< count($users); $i++){
-        if(isset($username) && $users[$i]['username'] === $username){
-            $users[$i] = $updateUser;
+    }else if(!isset($updateUser['password'])){
+        return "Password is required";
+
+    }else if(isset($updateUser['password']) && strlen($updateUser['password']) < 6){
+        echo "Password must be 6 digits";
+        return;
+
+    }else{
+        for($i = 0; $i< count($users); $i++){
+            if(isset($username) && $users[$i]['username'] === $username){
+                $users[$i] = $updateUser;
+            }
         }
+        return $users;
     }
-    return $users;
 
 }
 
@@ -116,7 +127,7 @@ $userList = addUser($userList,$newUser );
 $updateUser = [
     "username" => "Mg Mg",
     "email" => "mg@gmail.com",
-    "password" => "mgmg1234",
+    "password" => "mgmg34",
     "status" => true  
 ];
 $userList = updateUser($userList,$updateUser,'Aung Aung');
