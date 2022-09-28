@@ -94,7 +94,6 @@ function updateUser($users, $updateUser, $username){
         }
         return $users;
     }
-
 }
 
 
@@ -144,28 +143,49 @@ $userList = addUser($userList,$newUser );
 //Delete User with username 'Aung Aung'
 $userList = deleteUser($userList,'Aung Aung');
 
-
 ?>
 
 <html>
     <head>
         <title>Php Test</title>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">    
     </head>
     <body>
         <ul>
             <h3>Users List</h3>
-            <?php foreach($userList as $key => $user) { ?>
-               <?php if($user['status'] === true) { ?>
-                    <li>Array Index : <?php echo ($key + 1) ?> </li>
-                    <li>Username : <?php echo $user['username'] ?> </li>
-                    <li>Email : <?php echo $user['email'] ?> </li>
-                    <li>Password : <?php echo $user['password'] ?> </li>
-                    <li>Status : <?php echo $user['status'] ?> </li>
-                    <br>
-                <?php } else { ?>
-                    <li><?php echo "Account is not active" ?> </li> <br>
-                <?php } ?>
-            <?php } ?>
+            <div class='container'>
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($userList as $key => $user) { ?>
+                        <tr>
+                            <td><?php echo $key + 1 ?></td>
+                            <td><?php echo $user['username'] ?></td>
+                            <td><?php echo $user['email'] ?></td>
+                            <td><?php echo $user['password'] ?> </td>
+                            <td>
+                                <?php if($user['status'] === true) { ?>
+                                    <button type="button" class="btn btn-success">Active</button>
+                                <?php } else { ?>
+                                    <button type="button" class="btn btn-danger">Disable</button>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        
+                    <?php } ?>
+                    </tbody>
+                </table>     
+            </div>
+            
         </ul>
     </body>
 </html>
